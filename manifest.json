@@ -1,0 +1,14 @@
+{
+  "name": "Hazir Ji",
+  "short_name": "Hazir Ji",
+  "description": "Offline employee attendance and salary management app",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#26344A",
+  "theme_color": "#26344A",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
