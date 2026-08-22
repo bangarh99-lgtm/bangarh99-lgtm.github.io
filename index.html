@@ -934,6 +934,11 @@
         </div>
         <input type="file" id="importFileInput" accept="application/json,.json" style="display:none;">
       </div>
+      <div class="settings-group">
+        <div class="settings-item" id="accountSignOutBtn" style="cursor:pointer; color:var(--stamp-red-dark, #b3261e);">
+          <span data-t="accountSignOutLabel">← Sign Out</span>
+        </div>
+      </div>
     </div>
     <div class="bottomnav">
       <button data-nav="homeView"><div class="dot"></div><span data-t="navHome">ਘਰ</span></button>
@@ -1484,7 +1489,7 @@ const T = {
     plansMonthlyTitle:"ਮਹੀਨਾਵਾਰ ਪਲੈਨ", plansYearlyTitle:"ਸਾਲਾਨਾ ਪਲੈਨ", plansYearlySaveNote:"12 ਮਹੀਨਿਆਂ ਨਾਲੋਂ ਸਸਤਾ",
     plansComingSoon:"Pi Payments ਜਲਦੀ ਆ ਰਹੀ ਹੈ — ਹਾਲੇ Activate ਨਹੀਂ ਹੋਈ", piTestPaymentBtn:"🥧 Test Payment (1π)",
     waitingEyebrow:"ਖਾਤਾ ਸਥਿਤੀ", waitingTitle:"ਮਾਲਕ ਦੀ ਮਨਜ਼ੂਰੀ ਦੀ ਉਡੀਕ ਹੈ", waitingSub:"ਤੁਹਾਡਾ ਖਾਤਾ ਬਣ ਗਿਆ ਹੈ। ਮਾਲਕ ਦੇ ਮਨਜ਼ੂਰ ਕਰਨ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ ਐਪ ਵਰਤ ਸਕੋਗੇ।",
-    signOutBtn:"← ਬਾਹਰ ਜਾਓ", blockedEyebrow:"ਖਾਤਾ ਸਥਿਤੀ", blockedTitle:"ਖਾਤਾ ਬੰਦ ਕੀਤਾ ਗਿਆ ਹੈ",
+    signOutBtn:"← ਬਾਹਰ ਜਾਓ", accountSignOutLabel:"← ਬਾਹਰ ਜਾਓ (Sign Out)", accountSignOutConfirm:"ਕੀ ਤੁਸੀਂ ਸੱਚਮੁੱਚ Sign Out ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?", blockedEyebrow:"ਖਾਤਾ ਸਥਿਤੀ", blockedTitle:"ਖਾਤਾ ਬੰਦ ਕੀਤਾ ਗਿਆ ਹੈ",
     blockedSub:"ਤੁਹਾਡਾ ਖਾਤਾ ਬਲਾਕ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ। ਵਧੇਰੇ ਜਾਣਕਾਰੀ ਲਈ ਮਾਲਕ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।",
     ledgerEyebrow:"ਸੈਲਰੀ ਲੈਜਰ", ledgerTitle:"ਸੈਲਰੀ ਲੈਜਰ", viewLedgerBtn:"💰 ਸੈਲਰੀ ਲੈਜਰ",
     ledgerSalaryEarnedLabel:"ਬਣੀ ਤਨਖ਼ਾਹ (₹)", ledgerPaidLabel:"ਦਿੱਤੀ ਰਕਮ (₹)", ledgerPayableLabel:"ਦੇਣਯੋਗ",
@@ -1550,7 +1555,7 @@ const T = {
     plansMonthlyTitle:"मासिक प्लान", plansYearlyTitle:"वार्षिक प्लान", plansYearlySaveNote:"12 महीनों से सस्ता",
     plansComingSoon:"Pi Payments जल्द आ रही है — अभी Activate नहीं हुई", piTestPaymentBtn:"🥧 Test Payment (1π)",
     waitingEyebrow:"खाता स्थिति", waitingTitle:"मालिक की मंज़ूरी का इंतज़ार है", waitingSub:"आपका खाता बन गया है। मालिक के मंज़ूर करने के बाद आप ऐप इस्तेमाल कर सकेंगे।",
-    signOutBtn:"← बाहर जाएं", blockedEyebrow:"खाता स्थिति", blockedTitle:"खाता ब्लॉक कर दिया गया है",
+    signOutBtn:"← बाहर जाएं", accountSignOutLabel:"← बाहर जाएं (Sign Out)", accountSignOutConfirm:"क्या आप वाकई Sign Out करना चाहते हैं?", blockedEyebrow:"खाता स्थिति", blockedTitle:"खाता ब्लॉक कर दिया गया है",
     blockedSub:"आपका खाता ब्लॉक कर दिया गया है। अधिक जानकारी के लिए मालिक से संपर्क करें।",
     ledgerEyebrow:"सैलरी लेजर", ledgerTitle:"सैलरी लेजर", viewLedgerBtn:"💰 सैलरी लेजर",
     ledgerSalaryEarnedLabel:"बनी सैलरी (₹)", ledgerPaidLabel:"दी गई राशि (₹)", ledgerPayableLabel:"देय राशि",
@@ -1616,7 +1621,7 @@ const T = {
     plansMonthlyTitle:"Monthly Plan", plansYearlyTitle:"Yearly Plan", plansYearlySaveNote:"Cheaper than paying monthly",
     plansComingSoon:"Pi Payments coming soon — not yet active", piTestPaymentBtn:"🥧 Test Payment (1π)",
     waitingEyebrow:"ACCOUNT STATUS", waitingTitle:"Waiting for Owner Approval", waitingSub:"Your account has been created. You'll be able to use the app once the Owner approves it.",
-    signOutBtn:"← Sign Out", blockedEyebrow:"ACCOUNT STATUS", blockedTitle:"Account Blocked",
+    signOutBtn:"← Sign Out", accountSignOutLabel:"← Sign Out", accountSignOutConfirm:"Are you sure you want to sign out?", blockedEyebrow:"ACCOUNT STATUS", blockedTitle:"Account Blocked",
     blockedSub:"Your account has been blocked. Please contact the Owner for more information.",
     ledgerEyebrow:"SALARY LEDGER", ledgerTitle:"Salary Ledger", viewLedgerBtn:"💰 Salary Ledger",
     ledgerSalaryEarnedLabel:"Salary Earned (₹)", ledgerPaidLabel:"Paid (₹)", ledgerPayableLabel:"Payable",
@@ -1920,6 +1925,11 @@ document.getElementById('viewArchiveBtn').addEventListener('click', ()=>{
 });
 document.getElementById('viewPlansBtn').addEventListener('click', ()=>{
   showView('plansView');
+});
+document.getElementById('accountSignOutBtn').addEventListener('click', ()=>{
+  if(confirm(tr('accountSignOutConfirm'))){
+    signOutToAuth();
+  }
 });
 
 /* ---------------- BACKUP / RESTORE ---------------- */
