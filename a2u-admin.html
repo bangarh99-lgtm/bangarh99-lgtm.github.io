@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hazir Ji — A2U Payment Tool (Owner Only)</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin="anonymous"></script>
+<style>
+  body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:420px;margin:30px auto;padding:0 16px;color:#222;}
+  h1{font-size:18px;}
+  .warn{background:#FFF4E5;border:1px solid #F0B429;border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:20px;}
+  label{display:block;font-size:13px;font-weight:600;margin:14px 0 4px;}
+  input{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;font-size:15px;box-sizing:border-box;}
+  button{width:100%;padding:12px;margin-top:18px;background:#26344A;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;}
+  button:disabled{opacity:.5;}
+  #result{margin-top:16px;font-size:13px;white-space:pre-wrap;word-break:break-all;}
+  .ok{color:#1a7f37;} .err{color:#b3261e;}
+  #log{margin-top:24px;font-size:12px;}
+  #log div{padding:6px 0;border-bottom:1px solid #eee;}
+</style>
+</head>
+<body>
+<h1>Hazir Ji — A2U Payment Tool</h1>
+<div class="warn">
+  Owner-only tool. Used once to send the 5 required test payments for
+  Pi Mainnet App Wallet approval. Not linked from the main app, and safe
+  to delete from the repo afterwards.
+</div>
+
+<label>Recipient Pi Username</label>
+<input id="uid" placeholder="e.g. johnsmith (their Pi username / UID)">
+
+<label>Amount (π)</label>
+<input id="amount" type="number" value="0.1" step="0.01">
+
+<label>Memo (optional)</label>
+<input id="memo" placeholder="Hazir Ji verification payment">
+
+<button id="sendBtn">Send Payment</button>
+<div id="result"></div>
+
+<div id="log"></div>
+
+<script>
+const SUPABASE_URL = 'https://xvqyqesbkmkprcvwjkuj.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_wVHj2QhKh_3Mkv4LBbxIwA_qLVokVDr';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const sentLog = JSON.parse(localStorage.getItem('a2uLog') || '[]');
+function renderLog(){
+  document.getElementById('log').innerHTML =
+    '<b>Sent so far: ' + sentLog.length + ' / 5</b>' +
+    sentLog.map(e => `<div>${e.uid} — ${e.amount}π — ${e.ok ? '✅' : '❌'}</div>`).join('');
+}
+renderLog();
+
+document.getElementById('sendBtn').addEventListener('click', async () => {
+  const uid = document.getElementById('uid').value.trim();
+  const amount = Number(document.getElementById('amount').value);
+  const memo = document.getElementById('memo').value.trim();
+  const resultEl = document.getElementById('result');
+  const btn = document.getElementById('sendBtn');
+  if(!uid || !amount){ resultEl.textContent = 'Please fill in username and amount.'; return; }
+  btn.disabled = true;
+  resultEl.textContent = 'Sending...';
+  try{
+    const { data, error } = await sb.functions.invoke('pi-a2u-payment', {
+      body: { uid, amount, memo: memo || undefined }
+    });
+    if(error || !data || data.error){
+      resultEl.innerHTML = '<span class="err">Failed: ' + (data && data.error ? data.error : (error ? error.message : 'unknown error')) + '</span>';
+      sentLog.push({ uid, amount, ok: false });
+    } else {
+      resultEl.innerHTML = '<span class="ok">✅ Sent! Payment ID: ' + data.paymentId + '\nTx: ' + data.txid + '</span>';
+      sentLog.push({ uid, amount, ok: true });
+    }
+  }catch(e){
+    resultEl.innerHTML = '<span class="err">Failed: ' + e.message + '</span>';
+    sentLog.push({ uid, amount, ok: false });
+  }
+  localStorage.setItem('a2uLog', JSON.stringify(sentLog));
+  renderLog();
+  btn.disabled = false;
+});
+</script>
+</body>
+</html>
