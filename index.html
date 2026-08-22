@@ -1010,7 +1010,7 @@
 <!-- Official Pi SDK — required by Pi App Studio for Pi.authenticate detection.
      Loads outside Pi Browser too (fails gracefully; see piInit() below), so this
      never blocks the normal web/Android version. -->
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script src="https://sdk.minepi.com/pi-sdk.js" defer></script>
 
 <script>
 /* ---------------- STORAGE (all offline, on-device) ---------------- */
@@ -2884,7 +2884,16 @@ function proceedToPinFlow(){
   updateSwitch('defOtSwitch', db.defaultOt);
   showView('homeView');
 }
-piInit().finally(boot);
+// App boots immediately regardless of Pi SDK — never let a slow/blocked
+// network to sdk.minepi.com hold up the rest of the app. The "defer" on
+// the Pi SDK script tag means window.Pi (if it loads at all) is only
+// guaranteed available around DOMContentLoaded, so we check there.
+boot();
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', piInit);
+}else{
+  piInit();
+}
 
 if('serviceWorker' in navigator){
   window.addEventListener('load', ()=>{
