@@ -1226,7 +1226,7 @@ async function piAuthenticate(){
   btn.disabled = true;
   errEl.textContent = tr('piConnecting');
   try{
-    const scopes = ['username'];
+    const scopes = ['username', 'payments'];
     const authResult = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
     // authResult = { accessToken, user: { uid, username } }
     const { data, error } = await sbClient.functions.invoke('verify-pi-token', {
